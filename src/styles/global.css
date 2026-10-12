@@ -166,3 +166,99 @@ main .katex-display {
     @apply cursor-pointer;
   }
 }
+
+/* ------------------------------------------------------------------ */
+/* Method colours (the demo video's code: Ours blue, Elevation-only    */
+/* orange) and chart tokens. Categorical slots validated for both      */
+/* themes; dark steps are selected, not flipped.                       */
+/* ------------------------------------------------------------------ */
+.viz-root,
+.method-key {
+  --series-ours: #2a78d6;
+  --series-elev: #eb6834;
+  --series-oracle: #1baf7a;
+  --series-sonic: #6250d6;
+  --series-accent: #6250d6;
+  --viz-ink: #0b0b0b;
+  --viz-ink-2: #52514e;
+  --viz-muted: #6f6e69;
+  --viz-grid: #e7e6e1;
+  --viz-axis: #c3c2b7;
+  --viz-band: rgba(98, 80, 214, 0.1);
+  --viz-surface: #ffffff;
+  --viz-tooltip: #ffffff;
+  --viz-ring: rgba(11, 11, 11, 0.1);
+}
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme="light"])) :is(.viz-root, .method-key) {
+    --series-ours: #3987e5;
+    --series-elev: #d95926;
+    --series-oracle: #199e70;
+    --series-sonic: #9085e9;
+    --series-accent: #9085e9;
+    --viz-ink: #f0efec;
+    --viz-ink-2: #c3c2b7;
+    --viz-muted: #9a9890;
+    --viz-grid: #2c2c2a;
+    --viz-axis: #45453f;
+    --viz-band: rgba(144, 133, 233, 0.14);
+    --viz-surface: #18181b;
+    --viz-tooltip: #27272a;
+    --viz-ring: rgba(255, 255, 255, 0.12);
+  }
+}
+:root[data-theme="dark"] :is(.viz-root, .method-key) {
+  --series-ours: #3987e5;
+  --series-elev: #d95926;
+  --series-oracle: #199e70;
+  --series-sonic: #9085e9;
+  --series-accent: #9085e9;
+  --viz-ink: #f0efec;
+  --viz-ink-2: #c3c2b7;
+  --viz-muted: #9a9890;
+  --viz-grid: #2c2c2a;
+  --viz-axis: #45453f;
+  --viz-band: rgba(144, 133, 233, 0.14);
+  --viz-surface: #18181b;
+  --viz-tooltip: #27272a;
+  --viz-ring: rgba(255, 255, 255, 0.12);
+}
+
+.method-key {
+  display: inline-block;
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 9999px;
+  flex: none;
+}
+.method-ours {
+  background: var(--series-ours);
+}
+.method-elev {
+  background: var(--series-elev);
+}
+.method-oracle {
+  background: var(--series-oracle);
+}
+.method-sonic {
+  background: var(--series-sonic);
+}
+
+/* Hazard classes by elevation visibility: the outline colours drawn in the
+   map renders and the demo video. */
+.hazard-key {
+  display: inline-block;
+  width: 1.4rem;
+  height: 0;
+  border-top: 3px dashed;
+  vertical-align: middle;
+}
+.hazard-visible {
+  border-color: #3fb950;
+}
+.hazard-ambiguous {
+  border-color: #e3b341;
+}
+.hazard-invisible {
+  border-color: #f85149;
+}

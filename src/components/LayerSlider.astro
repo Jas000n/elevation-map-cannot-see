@@ -1,0 +1,38 @@
+---
+// Server side of the map comparison: optimise each layer render once (the
+// React island only swaps URLs), then hydrate the slider when it scrolls in.
+import { getImage } from "astro:assets";
+import { LayerSlider as Slider, type SceneImages } from "./LayerSlider.tsx";
+
+type Layers = { rgb: ImageMetadata; gt: ImageMetadata; lidar: ImageMetadata };
+
+interface Props {
+  scenes: { key: string; label: string; layers: Layers }[];
+}
+
+const { scenes } = Astro.props;
+
+const optimised: SceneImages[] = await Promise.all(
+  scenes.map(async ({ key, label, layers }) => {
+    const urls = await Promise.all(
+      (["rgb", "gt", "lidar"] as const).map(async (layer) => {
+        const image = await getImage({
+          src: layers[layer],
+          width: Math.min(1600, layers[layer].width),
+          format: "webp",
+          quality: 85,
+        });
+        return [layer, image.src] as const;
+      }),
+    );
+    return {
+      key,
+      label,
+      images: Object.fromEntries(urls) as SceneImages["images"],
+      aspect: `${layers.rgb.width} / ${layers.rgb.height}`,
+    };
+  }),
+);
+---
+
+<Slider client:visible scenes={optimised} />

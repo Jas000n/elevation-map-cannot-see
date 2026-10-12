@@ -1,0 +1,43 @@
+---
+// A looping clip with an optional label above it (a method, with its colour
+// key) and a caption below. Labels are HTML rather than burned into the
+// footage, so they stay sharp and follow the page theme.
+import Video from "./Video.astro";
+
+type Method = "ours" | "elev" | "oracle" | "sonic";
+
+interface Props {
+  src: string;
+  poster?: ImageMetadata;
+  label?: string;
+  method?: Method;
+  note?: string;
+}
+
+const { src, poster, label, method, note } = Astro.props;
+const hasCaption = Astro.slots.has("default");
+---
+
+<figure class="my-0! flex flex-col gap-2">
+  {
+    label && (
+      <div class="not-prose flex items-baseline justify-between gap-3 text-sm sm:text-base">
+        <span class="flex items-center gap-2 font-medium text-zinc-900 dark:text-zinc-100">
+          {method && <span class:list={["method-key", `method-${method}`]} />}
+          {label}
+        </span>
+        {note && <span class="text-sm text-zinc-500 dark:text-zinc-400">{note}</span>}
+      </div>
+    )
+  }
+  <div class="**:my-0">
+    <Video src={src} poster={poster?.src} controls={false} />
+  </div>
+  {
+    hasCaption && (
+      <figcaption class="mt-0 text-sm text-zinc-600 sm:text-base dark:text-zinc-400">
+        <slot />
+      </figcaption>
+    )
+  }
+</figure>

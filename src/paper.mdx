@@ -1,218 +1,457 @@
 ---
-# This title is used for the browser tab and the link-preview card (see the
-# "description" and "thumbnail" keys below). The title displayed at the top of
-# the page is set separately, on the <Header> component in the body.
-title: Academic Project Page Template
-
-# The color theme of the page. Defaults to "device" (the preference set in the user's brower or operating system). Setting this to "light" or "dark" will override the user's preference. This is useful if your figures only look good in one theme.
+# Browser tab and link-preview card. The heading on the page is set on <Header> below.
+title: "What the Elevation Map Cannot See: Semantic-Aware Locomotion and Execution-Aware Navigation for Humanoid Robot"
 theme: device
-
-# This is the icon that appears in the user's browser tab. To customize, change the favicon.svg file in /public/, or add your own file to /public/ and change the filename here.
 favicon: favicon.svg
-
-# These keys are optional. If a link to your project page is in a Google search result, text message, or social media post, it will often appear as a "link preview card" based on its title, description, favicon, and thumbnail. After you publish your page, you can double check that these previews look right using [this tool](https://linkpreview.xyz/)
-description: Simple project page template for your research paper, built with Astro and Tailwind
-thumbnail: screenshot-light.png
+description: A humanoid that steps over the phones, bottles and spills its elevation map cannot see, and a navigation loop that steers it back onto the route after it does.
+thumbnail: thumbnail.jpg
 ---
 
 import Header from "./components/Header.astro";
 import Video from "./components/Video.astro";
+import Clip from "./components/Clip.astro";
+import ClipGrid from "./components/ClipGrid.astro";
 import HighlightedSection from "./components/HighlightedSection.astro";
-import SmallCaps from "./components/SmallCaps.astro";
 import Figure from "./components/Figure.astro";
 import Picture from "./components/Picture.astro";
-import ModelViewer from "./components/ModelViewer.astro"
 import TwoColumns from "./components/TwoColumns.astro";
-import YouTubeVideo from "./components/YouTubeVideo.astro";
-import Carousel from "./components/Carousel.astro";
-import CarouselSlide from "./components/CarouselSlide.astro";
 import Wide from "./components/Wide.astro";
+import LayerSlider from "./components/LayerSlider.astro";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/starwind/tabs";
-import { Comparison } from "./components/Comparison.tsx";
+import { ProfileChart } from "./components/charts/ProfileChart.tsx";
+import { SimLocomotionChart } from "./components/charts/SimLocomotionChart.tsx";
+import { HazardContactChart } from "./components/charts/HazardContactChart.tsx";
 
-import outside from "./assets/outside.mp4";
-import dogsDiffc from "./assets/dogs-diffc.png"
-import dogsTrue from "./assets/dogs-true.png"
-import dogsMsillm from "@/assets/dogs-msillm.jpg"
+import cover from "./assets/videos/cover.mp4";
+import teaserOurs from "./assets/videos/teaser_ours.mp4";
+import teaserOursPoster from "./assets/posters/teaser_ours.jpg";
+import teaserMap from "./assets/videos/teaser_map.mp4";
+import teaserMapPoster from "./assets/posters/teaser_map.jpg";
+import teaserElev from "./assets/videos/teaser_elev.mp4";
+import teaserElevPoster from "./assets/posters/teaser_elev.jpg";
+import teaserNav from "./assets/videos/teaser_nav.mp4";
+import teaserNavPoster from "./assets/posters/teaser_nav.jpg";
+import hook from "./assets/videos/hook.mp4";
+import hookPoster from "./assets/posters/hook.jpg";
+import mapsReal from "./assets/videos/maps_real.mp4";
+import mapsRealPoster from "./assets/posters/maps_real.jpg";
+import mapsSim from "./assets/videos/maps_sim.mp4";
+import mapsSimPoster from "./assets/posters/maps_sim.jpg";
+import realFloorOurs from "./assets/videos/real_floor_ours.mp4";
+import realFloorOursPoster from "./assets/posters/real_floor_ours.jpg";
+import realFloorElev from "./assets/videos/real_floor_elev.mp4";
+import realFloorElevPoster from "./assets/posters/real_floor_elev.jpg";
+import realWoodOurs from "./assets/videos/real_wood_ours.mp4";
+import realWoodOursPoster from "./assets/posters/real_wood_ours.jpg";
+import realWoodElev from "./assets/videos/real_wood_elev.mp4";
+import realWoodElevPoster from "./assets/posters/real_wood_elev.jpg";
+import realSheetOurs from "./assets/videos/real_sheet_ours.mp4";
+import realSheetOursPoster from "./assets/posters/real_sheet_ours.jpg";
+import realSheetElev from "./assets/videos/real_sheet_elev.mp4";
+import realSheetElevPoster from "./assets/posters/real_sheet_elev.jpg";
+import distLight from "./assets/videos/dist_light.mp4";
+import distLightPoster from "./assets/posters/dist_light.jpg";
+import distPayload from "./assets/videos/dist_payload.mp4";
+import distPayloadPoster from "./assets/posters/dist_payload.jpg";
+import distPush from "./assets/videos/dist_push.mp4";
+import distPushPoster from "./assets/posters/dist_push.jpg";
+import sonic from "./assets/videos/sonic.mp4";
+import sonicPoster from "./assets/posters/sonic.jpg";
+import simPair1 from "./assets/videos/sim_pair_1.mp4";
+import simPair1Poster from "./assets/posters/sim_pair_1.jpg";
+import simPair2 from "./assets/videos/sim_pair_2.mp4";
+import simPair2Poster from "./assets/posters/sim_pair_2.jpg";
+import simStairs from "./assets/videos/sim_stairs.mp4";
+import simStairsPoster from "./assets/posters/sim_stairs.jpg";
+import simStakes from "./assets/videos/sim_stakes.mp4";
+import simStakesPoster from "./assets/posters/sim_stakes.jpg";
+import simStonebridge from "./assets/videos/sim_stonebridge.mp4";
+import simStonebridgePoster from "./assets/posters/sim_stonebridge.jpg";
+import simHardUneven from "./assets/videos/sim_hard_uneven.mp4";
+import simHardUnevenPoster from "./assets/posters/sim_hard_uneven.jpg";
+import simHardStonebridge from "./assets/videos/sim_hard_stonebridge.mp4";
+import simHardStonebridgePoster from "./assets/posters/sim_hard_stonebridge.jpg";
+import navDoorway from "./assets/videos/nav_doorway.mp4";
+import navDoorwayPoster from "./assets/posters/nav_doorway.jpg";
+import navCorridor from "./assets/videos/nav_corridor.mp4";
+import navCorridorPoster from "./assets/posters/nav_corridor.jpg";
+
+import fig1 from "./assets/figures/fig1_teaser.jpg";
+import fig2 from "./assets/figures/fig2_method.jpg";
+import fig3 from "./assets/figures/fig3_environments.jpg";
+import fig4 from "./assets/figures/fig4_curriculum.jpg";
+import fig6 from "./assets/figures/fig6_gradcam.jpg";
+import fig7 from "./assets/figures/fig7_rewards.jpg";
+import fig8 from "./assets/figures/fig8_antideviation.jpg";
+
+import realRgb from "./assets/maps/real_rgb.jpg";
+import realGt from "./assets/maps/real_gt.jpg";
+import realLidar from "./assets/maps/real_lidar.jpg";
+import simRgb from "./assets/maps/sim_rgb.jpg";
+import simGt from "./assets/maps/sim_gt.jpg";
+import simLidar from "./assets/maps/sim_lidar.jpg";
+
+{/* Authors go in `authors`; Paper / arXiv / Code buttons in `links`, e.g.
+    { name: "Paper", url: "...", icon: "ri:file-pdf-2-line" },
+    { name: "Code", url: "...", icon: "ri:github-line" } */}
 
 <Header
-  title="Academic Project Page Template"
-  conference="Conference Name"
-  authors={[
-    {
-      name: "Roman Hauksson",
-      url: "https://roman.technology",
-      institution: "University of Texas at Dallas",
-      notes: ["*", "†"],
-    },
-    { name: "Author Two", institution: "Institution Two", notes: ["*", "†"] },
-    { name: "Author Three", institution: "Institution Three", notes: ["*"] },
-    { name: "Author Four", institution: "Institution Four" },
-  ]}
-  notes={[
-    { symbol: "*", text: "author note one" },
-    { symbol: "†", text: "author note two" },
-  ]}
+  title="What the Elevation Map Cannot See"
+  subtitle="Semantic-Aware Locomotion and Execution-Aware Navigation for Humanoid Robot"
+  authors={[]}
   links={[
-    { name: "Paper", url: "https://github.com/RomanHauksson/academic-project-astro-template", icon: "ri:file-pdf-2-line" },
-    { name: "Code", url: "https://github.com/RomanHauksson/academic-project-astro-template", icon: "ri:github-line" },
-    { name: "arXiv", url: "https://github.com/RomanHauksson/academic-project-astro-template", icon: "academicons:arxiv" },
-    { name: "Slides", url: "https://github.com/RomanHauksson/academic-project-astro-template", icon: "ri:slideshow-2-line" },
+    { name: "Method", url: "#method", icon: "ri:node-tree" },
+    { name: "Real robot", url: "#real-robot-locomotion", icon: "ri:robot-2-line" },
+    { name: "Simulation", url: "#locomotion-in-simulation", icon: "ri:bar-chart-2-line" },
+    { name: "Navigation", url: "#navigation-with-anti-deviation", icon: "ri:road-map-line" },
   ]}
 >
-  {/*
-    Optionally place a cover image or video behind the header. Import the
-    asset (from src/assets/, so images are optimized) and pass it through the
-    "background" slot using the Picture or Video component:
-
-      <Picture slot="background" src={cover} alt="" />
-      <Video slot="background" src={outside} controls={false} />
-  */}
-  <Picture slot="background" src={dogsTrue} alt="" priority />
+  <Video slot="background" src={cover} controls={false} lazy={false} />
 </Header>
+
+<Wide>
+<ClipGrid cols={4}>
+  <Clip src={teaserOurs} poster={teaserOursPoster} label="Real robot" method="ours">Our policy on a Unitree G1 steps over boxes, bottles, phones and spills.</Clip>
+  <Clip src={teaserMap} poster={teaserMapPoster} label="What the map misses">A LiDAR elevation map keeps the boxes, but the phones and spills disappear from it.</Clip>
+  <Clip src={teaserElev} poster={teaserElevPoster} label="Elevation-only" method="elev">The same policy without the semantic branch steps on them.</Clip>
+  <Clip src={teaserNav} poster={teaserNavPoster} label="Navigation">After a detour around a hazard, anti-deviation steers the robot back onto its route.</Clip>
+</ClipGrid>
+</Wide>
 
 <HighlightedSection>
 
 ## Abstract
 
-This is a template you can use to create a professional-looking, accessible, and performant project page for your research paper. [See the code for the template and instructions on how to use it yourself on GitHub](https://github.com/RomanHauksson/academic-project-astro-template). It's made with the [Astro web framework](https://astro.build/) and styled with [Tailwind](https://tailwindcss.com/). You write the content in [MDX](https://mdxjs.com/), which enables markdown formatting like **bold**, _italics_, and ~strikethrough~, as well as custom components like <SmallCaps>small caps.</SmallCaps>
+Navigation for humanoid robots is critical, yet large-scale evaluation on physical hardware is often impractical due to cost and safety concerns, making simulation benchmarks essential. Existing VLN benchmarks achieve physically executable navigation, but still assume (1) all hazards are observable from elevation maps; (2) realized motions closely match desired motions. In real environments, however, fallen bottles may be ambiguous in elevation maps, while phones and water spills may be difficult to differentiate; hazard avoidance by the locomotion policy can cause the robot's actual trajectory to deviate from the path intended by the VLN policy. Such command-execution mismatch can accumulate and lead the robot toward unintended locations. To expose these failure modes, we introduce a benchmark that models both elevation-subtle hazards and execution deviations, together with a closed-loop VLN + locomotion control framework that continuously realigns high-level navigation with the robot's actual state. We evaluate navigation in simulation and further validate the locomotion policy on a physical Unitree G1 humanoid robot. Results show that semantic input reduces contact with hazards poorly represented in elevation maps, while anti-deviation improves navigation success. These findings highlight the need to evaluate humanoid navigation jointly in terms of route completion and hazard avoidance.
 
 </HighlightedSection>
 
-## Visuals
-
-### Image
-
-Use the `Picture` component to display images. If you have a figure in PDF format, you can pass in its path as the `src` prop and it will be converted into a web-friendly image automatically.
-
-<Picture src={dogsDiffc} alt="Photo of two running dogs, lossily compressed using the DiffC algorithm" />
-
-### Video
-
-<Video src={outside} />
-
-### Wide visual
-
-I constrained the maximum width of the text column to make sure it's readable even when the screen is wide. But images and other visuals should "break out" and take up more horizontal space: for this, try wrapping them in the `Wide` component.
-
 <Wide>
-  <Picture src={dogsDiffc} alt="Photo of two running dogs, lossily compressed using the DiffC algorithm" />
+<Figure>
+  <Picture slot="figure" src={fig1} alt="A Unitree G1 walking through boxes, fallen bottles, phones and water spills, next to the robot's RGB view and its elevation map" />
+  <Fragment slot="caption">Hazard visibility and real-world locomotion. (a) Every obstacle and hazard is visible in the RGB image. (b) In the map reconstructed with FAST-LIO2, the box is clearly visible, the fallen bottle is hard to tell from noise on the ground, and the phone and water spill do not show at all. (c)–(e) Our locomotion policy on three floor types.</Fragment>
+</Figure>
 </Wide>
 
-### Figure with caption
+## What the elevation map cannot see
 
-Wrap a visual in a `Figure` component to add a caption.
+Legged robots usually read the ground through an elevation map built from depth or LiDAR. It is very good at boxes. It is much worse at a fallen bottle, and it cannot represent a phone or a water or oil stain at all, although stepping on any of them can end a walk. We group the hazards in our benchmark by how they appear in an elevation map:
 
-<Figure>
-  <Picture slot="figure" src={dogsDiffc} alt="Photo of two running dogs, lossily compressed using the DiffC algorithm" />
-  <Fragment slot="caption">A photo of two dogs running side-by-side in shallow water, lossily compressed using the [DiffC algorithm](https://jeremyiv.github.io/diffc-project-page/).</Fragment>
-</Figure>
+| Elevation visibility | Hazard | Height (m) | Footprint (m) |
+| :--- | :--- | :---: | :---: |
+| <span class="hazard-key hazard-visible"></span> Visible | Crate | 0.06–0.24 | 0.25–0.50 × 0.30–0.60 |
+| <span class="hazard-key hazard-visible"></span> Visible | Box | 0.05–0.18 | 0.15–0.35 × 0.15–0.35 |
+| <span class="hazard-key hazard-ambiguous"></span> Ambiguous | Fallen bottle | 0.071 | 0.24 × 0.071 |
+| <span class="hazard-key hazard-invisible"></span> Invisible | Phone | 0.014 | 0.163 × 0.079 |
+| <span class="hazard-key hazard-invisible"></span> Invisible | Water / oil stain | 0 | 0.10–0.45 × 0.09–0.40 |
 
-### Comparison slider
+### One scene, three layers
 
-Use the `Comparison` component to compare two visuals with an interactive slider.
+Drag the divider. The left side is the scene's texture; the right side is either the same surface coloured by height, or the elevation map a robot would get. In the real scene the surface is a handheld scan and the map comes from FAST-LIO2 with elevation mapping on the robot (5 cm cells). In the simulated scene the surface is the simulator's own, and the map is synthesized with a LiDAR noise model fitted on the real map: a 6.2 cm lateral blur fitted on the real box edge, and 5.6 mm of floor noise. Fitted on nothing else, the model predicts the real bottle at 3.3 cm (measured 3.7 cm) and the phone at 0.6 cm (measured 0.5 cm).
 
-<Comparison client:idle >
-  <Picture slot="itemOne" src={dogsDiffc} alt="Photo of two running dogs, lossily compressed using the DiffC algorithm" />
-  <Picture slot="itemTwo" src={dogsTrue} alt="True photo of two dogs running side-by-side in shallow water" />
-</Comparison>
+<Wide>
+<div class="mx-auto max-w-6xl">
+  <LayerSlider
+    scenes={[
+      { key: "real", label: "Real scene", layers: { rgb: realRgb, gt: realGt, lidar: realLidar } },
+      { key: "sim", label: "Simulation", layers: { rgb: simRgb, gt: simGt, lidar: simLidar } },
+    ]}
+  />
+</div>
+</Wide>
 
-### Tab panels
+### Height across each hazard
 
-Tab panels are a great way to display a labeled collection of related visuals without taking up too much space.
+Height profiles through one object of each kind in the real scene, scan against map. The box survives almost intact, at 15.1 cm in the scan and 14.8 cm in the map. The fallen bottle loses about half its height, dropping from 6.8 cm to 3.7 cm. The phone (1.0 cm in the scan) and the spill both sit inside the map's own floor noise. A policy that sees only geometry gets no signal from either of them. Hover a panel to read off both heights.
 
-<Tabs defaultValue="true">
+<Wide>
+  <ProfileChart client:visible />
+</Wide>
+
+The same comparison as a camera move, in the real scene and in simulation:
+
+<Tabs defaultValue="real">
   <TabsList>
-    <TabsTrigger value="true">Ground truth</TabsTrigger>
-    <TabsTrigger value="diffc">DiffC (Flux-dev)</TabsTrigger>
-    <TabsTrigger value="msillm">MS-ILLM</TabsTrigger>
+    <TabsTrigger value="real">Real scene</TabsTrigger>
+    <TabsTrigger value="sim">Simulation</TabsTrigger>
   </TabsList>
-  <TabsContent value="true">
-    <Picture
-      src={dogsTrue}
-      alt="True photo of two dogs running side-by-side in shallow water"
-    />
+  <TabsContent value="real">
+    <Video src={mapsReal} poster={mapsRealPoster.src} controls={false} />
   </TabsContent>
-  <TabsContent value="diffc">
-    <Picture
-      src={dogsDiffc}
-      alt="Photo of two running dogs, lossily compressed using the DiffC algorithm"
-    />
-  </TabsContent>
-  <TabsContent value="msillm">
-    <Picture
-      src={dogsMsillm}
-      alt="Photo of two running dogs, lossily compressed using MS-ILLM"
-    />
+  <TabsContent value="sim">
+    <Video src={mapsSim} poster={mapsSimPoster.src} controls={false} />
   </TabsContent>
 </Tabs>
 
-### Carousel
+## Method
 
-A carousel is another useful pattern for a collection of visuals that don't necessarily have meaningful labels.
+<Wide>
+<Figure>
+  <Picture slot="figure" src={fig2} alt="Method overview: a semantic teacher trained on ground-truth elevation and semantic maps, distilled into an RGB-D student; a VLN module whose waypoints are corrected by anti-deviation" />
+  <Fragment slot="caption">(a) A semantic-aware teacher learns locomotion from ground-truth elevation and semantic maps. (b) DAgger distils the teacher into an RGB-D student with an elevation branch and a semantic branch. (c) A high-level VLN module (from NaVILA) produces relative target poses; the anti-deviation module tracks them with localization feedback.</Fragment>
+</Figure>
+</Wide>
 
-<Carousel>
-  <CarouselSlide>
-    <Picture src={dogsTrue} alt="True photo of two dogs running side-by-side in shallow water" />
-  </CarouselSlide>
-  <CarouselSlide>
-    <Picture src={dogsDiffc} alt="Photo of two running dogs, lossily compressed using the DiffC algorithm" />
-  </CarouselSlide>
-  <CarouselSlide>
-    <Picture
-      src={dogsMsillm}
-      alt="Photo of two running dogs, lossily compressed using MS-ILLM"
-    />
-  </CarouselSlide>
-</Carousel>
+The locomotion policy keeps the network of an attention-based map-encoding (AME) policy that already traverses challenging terrain, and adds an independent **semantic branch** next to its elevation branch. The elevation branch encodes the shape of the terrain. The semantic branch adds a steppability prior that marks safe support and hazardous regions. Training has three stages:
 
-## Two columns
+1. **Semantic teacher.** Starting from the pretrained AME policy, PPO on challenging terrain with visible, ambiguous and invisible hazards added. The teacher sees ground-truth elevation and semantic maps and is trained with two foot-placement rewards, described below.
+2. **Robust teacher.** PPO continues with curriculum randomisation of dynamics, payload, proprioceptive noise, pushes and external forces.
+3. **Deployable student.** DAgger distils the teacher into a student that sees only a waist-mounted D435. Depth feeds the elevation branch. RGB, together with features from a frozen DINOv2-S backbone, feeds the semantic branch. On hardware, stereo depth from Fast-FoundationStereo replaces raw depth.
 
-Use the two columns component to display two columns of content. In this example, the first column contains a YouTube video embed and the second column contains an interactive 3D model viewer. By default, they display side by side, but if the screen is narrow enough (for example, on mobile), they're arranged vertically.
+<Wide>
+<Figure>
+  <Picture slot="figure" src={fig4} alt="Training curriculum: warm start on challenging terrain, fine-tune with hazards and randomisation, distillation to a waist-camera student" />
+  <Fragment slot="caption">Training curriculum. An elevation-based policy is the warm start for learning hazard avoidance from ground-truth elevation and semantic maps. The teacher is then fine-tuned under domain randomisation and external disturbances. Finally, teacher–student distillation transfers the skill to a policy that uses only the waist-mounted RGB-D camera.</Fragment>
+</Figure>
+</Wide>
+
+### Rewards for stepping over hazards
 
 <TwoColumns>
-  <YouTubeVideo slot="left" videoId="wjZofJX0v4M" />
-  <ModelViewer slot="right" src="/BoxVertexColors.glb" alt="A cube colored with a rainbow gradient" />
+  <Figure slot="left">
+    <Picture slot="figure" src={fig7} alt="Step-over clearance reward and premature-descent penalty on a swing foot above a spill" />
+    <Fragment slot="caption">Top: the clearance reward for a swing foot moving horizontally over a hazard. Bottom: the penalty for lowering it while it still overlaps the hazard.</Fragment>
+  </Figure>
+  <div slot="right">
+    Two terms shape how a foot crosses a hazard: a clearance reward while the swing foot moves over it, and a penalty for lowering the foot before it has passed. Both are active only for a swing foot whose sole footprint overlaps a hazard, and are exactly zero elsewhere, so the nominal gait is untouched.
+  </div>
 </TwoColumns>
 
-## $\LaTeX$
-
-You can also add $\LaTeX$ formulas, rendered during the build process using [$\KaTeX$](https://katex.org/) so they're quick to load for visitors of your project page. You can write them inline, like this: $a^2 + b^2 = c^2$. Or, you can write them as a block:
+With $d_i = z_i - (h_i + \epsilon)$ the clearance of foot $i$ above the top of the hazard beneath it, $H_i$ the overlap indicator and $g_i$ the swing gate (active only while the robot is commanded to move):
 
 $$
-\int_a^b f(x) dx
+r_{\text{over}} = \frac{1}{N_f}\sum_{i} g_i H_i \tanh\!\big(k\lVert\mathbf{v}_{i,xy}\rVert\big)\Big[\tfrac{d_i}{\delta}\Big]_0^1
 $$
 
-## Citation
+$$
+p_{\text{desc}} = \frac{1}{N_f}\sum_{i} g_i H_i\, \mathbb{1}[d_i>0]\Big[1-\tfrac{d_i}{D}\Big]_0^1 \tanh\!\Big(\tfrac{\max(-v_{i,z},\,0)}{v_s}\Big)
+$$
 
-If you copy your bibliography into `./bibliography.bib`, you can cite papers using their BibTeX keys, and they'll be automatically formatted and included in the bibliography section at the end. For example: [@vaswani2017attention]. Note that these citations are distinct from footnotes[^mynote], which show up in a separate section if you use them.
+The horizontal-speed gate keeps a stationary raised foot from collecting clearance reward. The penalty grows as a descending foot nears the hazard; contact itself ends the episode.
 
-[^mynote]: On the web, they should really be called "endnotes", since each page constitutes a full document.
+### What the student looks at
 
-## Table
+<TwoColumns>
+  <Figure slot="left">
+    <Picture slot="figure" src={fig6} alt="Grad-CAM of right-leg actions on the student's depth and RGB inputs" />
+    <Fragment slot="caption">Grad-CAM for right-leg actions. (a) Depth while crossing stakes; (b) its Grad-CAM. (c) RGB while stepping over semantic hazards; (d) its Grad-CAM.</Fragment>
+  </Figure>
+  <div slot="right">
+    The salient regions are the walkable stake tops in the depth branch and the spills in the RGB branch. The policy attends to the terrain and the hazards around its feet rather than to its own legs.
+  </div>
+</TwoColumns>
 
-Add simple tables using [GitHub Flavored Markdown syntax](https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/organizing-information-with-tables):
+### Anti-deviation: closing the loop with navigation
 
-| Model | Accuracy | F1 score | Training time (hours) |
-| :--- | :---: | :---: | :---: |
-| BERT-base | 0.89 | 0.87 | 4.5 |
-| RoBERTa-large | 0.92 | 0.91 | 7.2 |
-| DistilBERT | 0.86 | 0.84 | 2.1 |
-| XLNet | 0.90 | 0.89 | 6.8 |
+<TwoColumns>
+  <Figure slot="left">
+    <Picture slot="figure" src={fig8} alt="The robot detours around hazards (green), drifting from the VLN-commanded direction (red); anti-deviation steers it back (blue)" />
+    <Fragment slot="caption">Command–execution mismatch. With no safe foothold along the commanded direction (red), the robot detours (green); anti-deviation steers it back toward the intended target pose (blue).</Fragment>
+  </Figure>
+  <div slot="right">
+    Avoiding a hazard takes sidesteps, shorter steps or turns, and those leave the robot somewhere the VLN policy did not plan for. Executed open-loop, each waypoint $w_t$ becomes a constant velocity command, the deviation carries into the next VLN decision, and the error accumulates. Anti-deviation anchors the target pose at decision time, $p_t^{\text{tar}} = p_t \oplus w_t$, estimates the current pose $\hat p_t$ from the same monocular RGB stream (LingBot-Map in simulation), and maps the residual to a compensatory command:
 
-## BibTeX citation
+    $$
+    d_t = p_t^{\text{tar}} - \hat p_t, \qquad c_t^{\text{comp}} = \kappa_{\text{ad}}(d_t)
+    $$
 
-Displaying the BibTeX entry for your paper in a code block makes it easy to copy and paste.
+    The compensatory command takes the slot of the velocity command. The locomotion policy keeps its inputs and action interface unchanged.
+  </div>
+</TwoColumns>
 
-```bibtex
-@misc{roman2024academic,
-  author = "{Roman Hauksson}",
-  title = "Academic Project Page Template",
-  year = "2024",
-  howpublished = "\url{https://research-template.roman.technology}",
-}
-```
+## Real-robot locomotion
 
-## Bibliography
+The same student policy runs on a Unitree G1 with a waist-mounted D435. The course mixes boxes, fallen bottles, phones and water spills. The baselines are **Elevation-only**, a student distilled from the same teacher with the same schedule, depth camera and perturbations but without the semantic branch, and **Sonic**, a blind whole-body controller driven by a human expert with a joystick.
 
-[^ref]
+<Clip src={hook} poster={hookPoster} label="Ours on the Unitree G1" method="ours" note="insets: the waist D435's RGB and depth">
+Boxes and bottles, and the phones and spills that an elevation map cannot see.
+</Clip>
+
+### Three floor surfaces
+
+<Wide>
+<Tabs defaultValue="floor">
+  <TabsList>
+    <TabsTrigger value="floor">Plastic flooring</TabsTrigger>
+    <TabsTrigger value="wood">Wooden boards</TabsTrigger>
+    <TabsTrigger value="sheet">Waterproof sheet</TabsTrigger>
+  </TabsList>
+  <TabsContent value="floor">
+    <ClipGrid>
+      <Clip src={realFloorOurs} poster={realFloorOursPoster} label="Ours — semantic + elevation" method="ours" />
+      <Clip src={realFloorElev} poster={realFloorElevPoster} label="Elevation-only" method="elev" />
+    </ClipGrid>
+    <p class="text-base text-zinc-600 dark:text-zinc-400">Dark plastic flooring, very slippery.</p>
+  </TabsContent>
+  <TabsContent value="wood">
+    <ClipGrid>
+      <Clip src={realWoodOurs} poster={realWoodOursPoster} label="Ours — semantic + elevation" method="ours" />
+      <Clip src={realWoodElev} poster={realWoodElevPoster} label="Elevation-only" method="elev" />
+    </ClipGrid>
+    <p class="text-base text-zinc-600 dark:text-zinc-400">Light-brown wooden boards, rough and narrow.</p>
+  </TabsContent>
+  <TabsContent value="sheet">
+    <ClipGrid>
+      <Clip src={realSheetOurs} poster={realSheetOursPoster} label="Ours — semantic + elevation" method="ours" />
+      <Clip src={realSheetElev} poster={realSheetElevPoster} label="Elevation-only" method="elev" />
+    </ClipGrid>
+    <p class="text-base text-zinc-600 dark:text-zinc-400">Light-grey waterproof plastic sheet, slippery and narrow.</p>
+  </TabsContent>
+</Tabs>
+</Wide>
+
+Five trials per method and surface. A trial is a clean success only if it finishes without a fall, without leaving the corridor and without touching any obstacle or hazard. Contacts are counted but do not stop the trial. All numbers are percentages of trials.
+
+| Surface | Method | Clean SR ↑ | Out of corridor ↓ | HCR visible ↓ | HCR ambiguous ↓ | HCR invisible ↓ |
+| :--- | :--- | :---: | :---: | :---: | :---: | :---: |
+| Plastic flooring | Elevation-only | 0 | 20 | 20 | 80 | 100 |
+| | Sonic | 20 | 80 | 0 | 40 | 40 |
+| | **Ours** | **40** | 20 | 0 | 20 | 20 |
+| Wooden boards | Elevation-only | 0 | 0 | 20 | 80 | 100 |
+| | Sonic | 0 | 100 | 0 | 20 | 20 |
+| | **Ours** | **60** | 40 | 0 | 0 | 20 |
+| Waterproof sheet | Elevation-only | 0 | 20 | 0 | 20 | 100 |
+| | Sonic | 0 | 100 | 0 | 20 | 20 |
+| | **Ours** | **60** | 20 | 0 | 20 | 0 |
+
+Elevation-only touches an invisible hazard in every trial on every surface. Even with an expert giving the velocity commands, Sonic leaves the corridor in 80–100% of trials:
+
+<Clip src={sonic} poster={sonicPoster} label="Sonic, blind whole-body controller" method="sonic" note="5× speed">
+With no perception on the robot, the human expert finds no safe line through the hazards and has to leave the corridor.
+</Clip>
+
+### Disturbances
+
+<Wide>
+<ClipGrid cols={3}>
+  <Clip src={distLight} poster={distLightPoster} label="2000 lm flashlight" method="ours">A flashlight shines on the floor ahead.</Clip>
+  <Clip src={distPayload} poster={distPayloadPoster} label="1 kg payload" method="ours">The robot walks with an added 1 kg payload.</Clip>
+  <Clip src={distPush} poster={distPushPoster} label="Pool-noodle strikes" method="ours">The robot is struck with a pool noodle while walking.</Clip>
+</ClipGrid>
+</Wide>
+
+| Condition | Clean SR ↑ (%) |
+| :--- | :---: |
+| No disturbance | 60 |
+| Flashlight (2000 lm) | 40 |
+| Added payload (1 kg) | 40 |
+| Pool-noodle strikes | 60 |
+
+## Locomotion in simulation
+
+The simulated benchmark covers procedurally generated corridors in four terrain groups (uneven ground, stairs, stakes and stonebridge), each at three difficulty levels, with the six hazard types placed along the way. On top of that come perturbations to dynamics, payload, pushes, sensing, lighting, surface colour, camera pose and camera timing, all scaled together; at scale 1.0 the robot is, for example, pushed at up to 0.8 m/s every 3–7 s and carries up to ±2 kg of extra mass. All clips below are at the hardest level, L3.
+
+<Wide>
+<Figure>
+  <Picture slot="figure" src={fig3} alt="Test environments: navigation scenes, simulated locomotion terrains and real-world payload, push and lighting conditions" />
+  <Fragment slot="caption">Testing environments. (a) Navigation in simulation. (b) Locomotion in simulation. (c) Real-world tests with external payload, pushes and lighting.</Fragment>
+</Figure>
+</Wide>
+
+### Same layout, two policies
+
+Hazard layouts are drawn from a seed that does not depend on the policy, so both policies walk exactly the same ground. On the left, Ours with its RGB and depth inputs; on the right, Elevation-only with its depth input. Over one continuous run the floor is re-textured live, switching between textures from the training pool.
+
+<Tabs defaultValue="pair1">
+  <TabsList>
+    <TabsTrigger value="pair1">Layout 730: oil spill</TabsTrigger>
+    <TabsTrigger value="pair2">Layout 644: phone</TabsTrigger>
+  </TabsList>
+  <TabsContent value="pair1">
+    <Video src={simPair1} poster={simPair1Poster.src} controls={false} />
+    <p class="text-base text-zinc-600 dark:text-zinc-400">Both policies cross the bottle and the box. At the oil spill, Ours passes 14 cm clear; Elevation-only, whose depth input does not show the spill, steps on it.</p>
+  </TabsContent>
+  <TabsContent value="pair2">
+    <Video src={simPair2} poster={simPair2Poster.src} controls={false} />
+    <p class="text-base text-zinc-600 dark:text-zinc-400">Both policies step over a box. At the phone, Ours steps over it and Elevation-only steps on it.</p>
+  </TabsContent>
+</Tabs>
+
+### Terrains and disturbances
+
+<Tabs defaultValue="stairs">
+  <TabsList>
+    <TabsTrigger value="stairs">Stairs</TabsTrigger>
+    <TabsTrigger value="stakes">Stakes</TabsTrigger>
+    <TabsTrigger value="stonebridge">Stonebridge</TabsTrigger>
+  </TabsList>
+  <TabsContent value="stairs">
+    <Video src={simStairs} poster={simStairsPoster.src} controls={false} />
+  </TabsContent>
+  <TabsContent value="stakes">
+    <Video src={simStakes} poster={simStakesPoster.src} controls={false} />
+  </TabsContent>
+  <TabsContent value="stonebridge">
+    <Video src={simStonebridge} poster={simStonebridgePoster.src} controls={false} />
+  </TabsContent>
+</Tabs>
+
+With every perturbation at 1.5× its nominal scale (shoves up to 1.2 m/s, ±3 kg payload, friction, motor strength, lighting and sensor noise), with slow motion around the first shove:
+
+<Wide>
+<ClipGrid>
+  <Clip src={simHardUneven} poster={simHardUnevenPoster} label="Uneven ground with hazards" method="ours" note="perturbation 1.5×" />
+  <Clip src={simHardStonebridge} poster={simHardStonebridgePoster} label="Stonebridge" method="ours" note="perturbation 1.5×" />
+</ClipGrid>
+</Wide>
+
+### Success across difficulty and perturbation
+
+Success means finishing the corridor without leaving it, without falling and without touching any obstacle or hazard. Progress is the fraction of the distance covered before an episode ends. In clean conditions, Ours raises success over Elevation-only by 23.6, 28.5 and 25.8 points on L1, L2 and L3. The gap narrows under the strongest perturbation: at L3 and 1.5×, Ours still covers 56.7% of the distance but completes only 22.7% of episodes. Hover a column for its value; whiskers are ± one standard deviation over five seeds.
+
+<Wide>
+  <SimLocomotionChart client:visible />
+</Wide>
+
+### Where the semantic branch helps
+
+On uneven ground, Ours succeeds in 50.6% of clean episodes against 9.4% for Elevation-only. The improvement comes from hazards the elevation map cannot show. "% closed" below each group is the fraction of the Elevation-only → Oracle gap in hazard contact that Ours closes, $(\mathrm{HCR}_{\text{elev}}-\mathrm{HCR}_{\text{ours}})/(\mathrm{HCR}_{\text{elev}}-\mathrm{HCR}_{\text{oracle}})$. It is 74–100% for elevation-invisible hazards, 51–61% for ambiguous ones and only 12–24% for visible ones.
+
+<Wide>
+  <HazardContactChart client:visible />
+</Wide>
+
+## Navigation with anti-deviation
+
+Navigation is evaluated in simulation, on the training and unseen validation splits of NaVILA's VLN-CE-Isaac. Obstacles are added by script: 40% of them on the reference path and the rest within 1 m of it, so the robot has to avoid hazards both on the intended route and on any detour around them. The clips compare the same route and instruction, with and without anti-deviation; the green dashed line is the route the VLN waypoints intend.
+
+<Tabs defaultValue="doorway">
+  <TabsList>
+    <TabsTrigger value="doorway">Through a doorway</TabsTrigger>
+    <TabsTrigger value="corridor">Off the route and back</TabsTrigger>
+  </TabsList>
+  <TabsContent value="doorway">
+    <Video src={navDoorway} poster={navDoorwayPoster.src} controls={false} aspect="1920 / 904" />
+    <p class="text-base text-zinc-600 dark:text-zinc-400">Without anti-deviation, the robot steps over the last spill, drifts and swings into the wall. With it, the robot stays on the line through the doorway.</p>
+  </TabsContent>
+  <TabsContent value="corridor">
+    <Video src={navCorridor} poster={navCorridorPoster.src} controls={false} aspect="1920 / 904" />
+    <p class="text-base text-zinc-600 dark:text-zinc-400">Both robots leave the route while avoiding hazards. Anti-deviation steers its robot back; the open-loop robot keeps drifting and collides.</p>
+  </TabsContent>
+</Tabs>
+
+Anti-deviation doubles safe success, raises success from 19.5% to 29.8% and cuts the collision rate by about two thirds. Average progress is slightly *lower* with it. Without execution feedback, a robot can still move roughly toward the goal while never reaching it.
+
+| Method | Safe SR ↑ | SR ↑ | SPL ↑ | Collision ↓ | Hazard intrusion ↓ | FR ↓ | Avg. progress ↑ | Final goal dist. (m) ↓ |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| **Ours** | **23.68%** | **29.80%** | **0.256** | **12.26%** | **12.81%** | 10.86% | 43.20% | 5.38 |
+| Ours w/o anti-deviation | 11.98% | 19.50% | 0.169 | 35.93% | 18.38% | 8.64% | 46.12% | 5.16 |
+
+Removing the semantic branch instead (keeping anti-deviation) lowers safe success in all four settings, by 3.3 to 12.3 points, and raises hazard intrusion by 8.6 to 11.2 points and the fall rate by 8.6 to 9.8 points:
+
+| Obstacles | Perturbation | Method | Safe SR ↑ | SR ↑ | Collision ↓ | Hazard intrusion ↓ | FR ↓ |
+| :---: | :---: | :--- | :---: | :---: | :---: | :---: | :---: |
+| 5 | 0.5× | **Ours** | **35.38%** | **40.95%** | **15.04%** | **11.98%** | **16.16%** |
+| 5 | 0.5× | Elevation-only | 23.12% | 30.08% | 22.84% | 20.61% | 25.07% |
+| 5 | 1.0× | **Ours** | **23.68%** | **29.80%** | **12.26%** | **12.81%** | **10.86%** |
+| 5 | 1.0× | Elevation-only | 17.27% | 23.96% | 20.89% | 22.84% | 19.50% |
+| 10 | 0.5× | **Ours** | **17.55%** | **24.23%** | **20.89%** | **18.11%** | **11.98%** |
+| 10 | 0.5× | Elevation-only | 13.65% | 21.17% | 29.25% | 27.86% | 21.73% |
+| 10 | 1.0× | **Ours** | **13.09%** | **20.06%** | **32.59%** | **22.28%** | **14.21%** |
+| 10 | 1.0× | Elevation-only | 9.75% | 16.16% | 33.43% | 33.43% | 23.68% |
+
+## Limitations
+
+- **The gap to the teacher remains.** On clean uneven ground, Ours succeeds in 50.6% of episodes against the ground-truth-map Oracle's 93.6%. Its contact rate on *visible* hazards is 24.7% against 2.2%, so handling ambiguous and invisible hazards alone does not make a route reliable. Because the two differ in both observations and training role, these results do not separate perception error from distillation or control limits.
+- **Falls under strong perturbation.** At 1.5× perturbation the fall rate of Ours rises to 11.9%, against 5.8% for the Oracle and 3.1% for Elevation-only, possibly because the camera is sensitive to lighting changes.
+- **Memory and hardware.** The waist camera sees only what is in front of the feet. Persistent semantic mapping could keep hazards that have left the field of view. The navigation framework has so far been validated only in simulation.

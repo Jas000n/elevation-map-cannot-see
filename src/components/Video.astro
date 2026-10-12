@@ -2,6 +2,11 @@
 import type { HTMLAttributes } from "astro/types";
 interface Props extends HTMLAttributes<"video"> {
   src: string;
+  // Muted autoplay loops start loading only when they scroll into view and
+  // pause when they leave it, so a page of clips costs what is on screen.
+  lazy?: boolean;
+  // CSS aspect-ratio for clips that are not 16:9, e.g. "1920 / 904".
+  aspect?: string;
 }
 
 const {
@@ -11,16 +16,58 @@ const {
   playsinline = true,
   muted = true,
   autoplay = true,
+  lazy = autoplay,
+  aspect,
   ...videoProps
 } = Astro.props;
 ---
 
-<video
-  class="aspect-video h-auto w-full rounded-lg"
-  src={src}
-  controls={controls}
-  loop={loop}
-  playsinline={playsinline}
-  muted={muted}
-  autoplay={autoplay}
-  {...videoProps}></video>
+{
+  lazy ? (
+    <video
+      class:list={["h-auto w-full rounded-lg bg-zinc-200 dark:bg-zinc-800", !aspect && "aspect-video"]}
+      style={aspect && `aspect-ratio: ${aspect}`}
+      data-lazy-src={src}
+      controls={controls}
+      loop={loop}
+      playsinline={playsinline}
+      muted={muted}
+      preload="none"
+      {...videoProps}
+    />
+  ) : (
+    <video
+      class:list={["h-auto w-full rounded-lg", !aspect && "aspect-video"]}
+      style={aspect && `aspect-ratio: ${aspect}`}
+      src={src}
+      controls={controls}
+      loop={loop}
+      playsinline={playsinline}
+      muted={muted}
+      autoplay={autoplay}
+      {...videoProps}
+    />
+  )
+}
+
+<script>
+  const observer = new IntersectionObserver(
+    (entries) => {
+      for (const entry of entries) {
+        const video = entry.target as HTMLVideoElement;
+        if (entry.isIntersecting) {
+          if (!video.getAttribute("src")) video.src = video.dataset.lazySrc ?? "";
+          void video.play().catch(() => {});
+        } else if (!video.paused) {
+          video.pause();
+        }
+      }
+    },
+    { rootMargin: "200px 0px" },
+  );
+  for (const video of document.querySelectorAll<HTMLVideoElement>(
+    "video[data-lazy-src]",
+  )) {
+    observer.observe(video);
+  }
+</script>
