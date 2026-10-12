@@ -91,19 +91,25 @@ import simRgb from "./assets/maps/sim_rgb.jpg";
 import simGt from "./assets/maps/sim_gt.jpg";
 import simLidar from "./assets/maps/sim_lidar.jpg";
 
-{/* Authors go in `authors`; Paper / arXiv / Code buttons in `links`, e.g.
-    { name: "Paper", url: "...", icon: "ri:file-pdf-2-line" },
-    { name: "Code", url: "...", icon: "ri:github-line" } */}
-
 <Header
   title="What the Elevation Map Cannot See"
   subtitle="Semantic-Aware Locomotion and Execution-Aware Navigation for Humanoid Robot"
-  authors={[]}
+  authors={[
+    { name: "Shunyu Yao", notes: ["1"] },
+    { name: "Songyang Liu", notes: ["1"] },
+    { name: "Dinghao Chen", notes: ["2"] },
+    { name: "Yuanyuan Lei", notes: ["3"] },
+    { name: "Shuai Li", notes: ["1"] },
+  ]}
+  notes={[
+    { symbol: "1", text: "ESSIE, University of Florida" },
+    { symbol: "2", text: "Independent researcher" },
+    { symbol: "3", text: "CISE, University of Florida" },
+  ]}
   links={[
-    { name: "Method", url: "#method", icon: "ri:node-tree" },
-    { name: "Real robot", url: "#real-robot-locomotion", icon: "ri:robot-2-line" },
-    { name: "Simulation", url: "#locomotion-in-simulation", icon: "ri:bar-chart-2-line" },
-    { name: "Navigation", url: "#navigation-with-anti-deviation", icon: "ri:road-map-line" },
+    { name: "Paper", url: "https://arxiv.org/pdf/2610.07396", icon: "ri:file-pdf-2-line" },
+    { name: "arXiv", url: "https://arxiv.org/abs/2610.07396", icon: "academicons:arxiv" },
+    { name: "Code", icon: "ri:github-line", pending: "coming soon" },
   ]}
 >
   <Video slot="background" src={cover} controls={false} lazy={false} />
@@ -455,3 +461,14 @@ Removing the semantic branch instead (keeping anti-deviation) lowers safe succes
 - **The gap to the teacher remains.** On clean uneven ground, Ours succeeds in 50.6% of episodes against the ground-truth-map Oracle's 93.6%. Its contact rate on *visible* hazards is 24.7% against 2.2%, so handling ambiguous and invisible hazards alone does not make a route reliable. Because the two differ in both observations and training role, these results do not separate perception error from distillation or control limits.
 - **Falls under strong perturbation.** At 1.5× perturbation the fall rate of Ours rises to 11.9%, against 5.8% for the Oracle and 3.1% for Elevation-only, possibly because the camera is sensitive to lighting changes.
 - **Memory and hardware.** The waist camera sees only what is in front of the feet. Persistent semantic mapping could keep hazards that have left the field of view. The navigation framework has so far been validated only in simulation.
+
+## BibTeX
+
+```bibtex
+@article{yao2026elevation,
+  title   = {What the Elevation Map Cannot See: Semantic-Aware Locomotion and Execution-Aware Navigation for Humanoid Robot},
+  author  = {Yao, Shunyu and Liu, Songyang and Chen, Dinghao and Lei, Yuanyuan and Li, Shuai},
+  journal = {arXiv preprint arXiv:2610.07396},
+  year    = {2026}
+}
+```

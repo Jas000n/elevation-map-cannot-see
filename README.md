@@ -5,8 +5,9 @@ for Humanoid Robot*. Built on
 [RomanHauksson/academic-project-astro-template](https://github.com/RomanHauksson/academic-project-astro-template)
 (Astro + MDX + Tailwind + React islands); the template's own documentation is in `documentation.md`.
 
-The page presents the work as a project and names no venue. Authors and the Paper / arXiv / Code buttons go on
-the `<Header>` in `src/paper.mdx` (example buttons are commented there).
+Paper: [arXiv:2610.07396](https://arxiv.org/abs/2610.07396). The page presents the work as a project and names no
+venue. Authors, affiliations and the Paper / arXiv / Code buttons are props of `<Header>` in `src/paper.mdx`; a
+button without a `url` is shown greyed out with its `pending` note (the Code button, until the code is released).
 
 ## Build and preview
 
