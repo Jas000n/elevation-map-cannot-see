@@ -49,5 +49,7 @@ section as a short loop.
 
 ## Deploy
 
-GitHub Pages via `.github/workflows/astro.yml`: push to `main` of a repository with Pages set to "GitHub
-Actions".
+Live at <https://jas000n.github.io/elevation-map-cannot-see/>, served from this repository
+(`Jas000n/elevation-map-cannot-see`) by GitHub Pages with source "GitHub Actions". Every push to `main` rebuilds and
+redeploys through `.github/workflows/astro.yml`, which passes the `/elevation-map-cannot-see` base path to Astro;
+asset URLs in the page all go through it, so nothing needs changing if the repository is renamed.
