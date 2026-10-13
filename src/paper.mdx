@@ -29,6 +29,10 @@ import teaserMap from "./assets/videos/teaser_map.mp4";
 import teaserMapPoster from "./assets/posters/teaser_map.jpg";
 import teaserElev from "./assets/videos/teaser_elev.mp4";
 import teaserElevPoster from "./assets/posters/teaser_elev.jpg";
+import teaserSim from "./assets/videos/teaser_sim.mp4";
+import teaserSimPoster from "./assets/posters/teaser_sim.jpg";
+import teaserTerrain from "./assets/videos/teaser_terrain.mp4";
+import teaserTerrainPoster from "./assets/posters/teaser_terrain.jpg";
 import teaserNav from "./assets/videos/teaser_nav.mp4";
 import teaserNavPoster from "./assets/posters/teaser_nav.jpg";
 import hook from "./assets/videos/hook.mp4";
@@ -116,10 +120,12 @@ import simLidar from "./assets/maps/sim_lidar.jpg";
 </Header>
 
 <Wide>
-<ClipGrid cols={4}>
+<ClipGrid cols={3} compact>
   <Clip src={teaserOurs} poster={teaserOursPoster} label="Real robot" method="ours">Our policy on a Unitree G1 steps over boxes, bottles, phones and spills.</Clip>
   <Clip src={teaserMap} poster={teaserMapPoster} label="What the map misses">A LiDAR elevation map keeps the boxes, but the phones and spills disappear from it.</Clip>
   <Clip src={teaserElev} poster={teaserElevPoster} label="Elevation-only" method="elev">The same policy without the semantic branch steps on them.</Clip>
+  <Clip src={teaserSim} poster={teaserSimPoster} label="Simulation" method="ours">The same policy crosses randomized hazard layouts at the hardest difficulty level.</Clip>
+  <Clip src={teaserTerrain} poster={teaserTerrainPoster} label="Simulated terrain" method="ours">A stonebridge at the hardest level. Stairs and stakes are in the benchmark too, all strewn with hazards.</Clip>
   <Clip src={teaserNav} poster={teaserNavPoster} label="Navigation">After a detour around a hazard, anti-deviation steers the robot back onto its route.</Clip>
 </ClipGrid>
 </Wide>

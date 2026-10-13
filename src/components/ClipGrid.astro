@@ -1,18 +1,19 @@
 ---
-// Clips side by side: `cols` on wide screens, one per row on narrow ones.
+// Clips side by side: `cols` on wide screens, one per row on narrow ones. `compact` (short loops) keeps them two
+// abreast even on a phone.
 interface Props {
-  cols?: 2 | 3 | 4;
+  cols?: 2 | 3;
+  compact?: boolean;
 }
 
-const { cols = 2 } = Astro.props;
+const { cols = 2, compact = false } = Astro.props;
 ---
 
 <div
   class:list={[
     "my-8 grid gap-y-8",
-    // four short loops stay two abreast even on a phone
-    cols === 4
-      ? "grid-cols-2 gap-x-3 sm:gap-x-5 xl:grid-cols-4"
+    compact
+      ? ["grid-cols-2 gap-x-3 sm:gap-x-5", cols === 3 && "md:grid-cols-3"]
       : cols === 3
         ? "grid-cols-1 gap-x-5 md:grid-cols-3"
         : "grid-cols-1 gap-x-5 sm:grid-cols-2",

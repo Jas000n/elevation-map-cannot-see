@@ -45,7 +45,7 @@ python demo_video/website_media.py --site ... --only videos --videos sim_pair_1 
 
 It re-encodes the same footage the demo video cuts from (H.264, faststart, no audio), extracts the paper's
 figures as embedded, renders the map layers once per scene from a fixed camera (Blender, GPU), and renders the
-four short `teaser_*` loops under the header. The page has no long video: each part of the demo sits in its
+six short `teaser_*` loops under the header (three real-world, three simulated). The page has no long video: each part of the demo sits in its
 section as a short loop.
 
 ## Deploy
