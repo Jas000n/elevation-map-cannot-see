@@ -33,8 +33,20 @@ import teaserSim from "./assets/videos/teaser_sim.mp4";
 import teaserSimPoster from "./assets/posters/teaser_sim.jpg";
 import teaserTerrain from "./assets/videos/teaser_terrain.mp4";
 import teaserTerrainPoster from "./assets/posters/teaser_terrain.jpg";
-import teaserNav from "./assets/videos/teaser_nav.mp4";
-import teaserNavPoster from "./assets/posters/teaser_nav.jpg";
+import teaserPush from "./assets/videos/teaser_push.mp4";
+import teaserPushPoster from "./assets/posters/teaser_push.jpg";
+import teaserSimElev from "./assets/videos/teaser_sim_elev.mp4";
+import teaserSimElevPoster from "./assets/posters/teaser_sim_elev.jpg";
+import teaserSimPush from "./assets/videos/teaser_sim_push.mp4";
+import teaserSimPushPoster from "./assets/posters/teaser_sim_push.jpg";
+import teaserNavDoorwayOpen from "./assets/videos/teaser_nav_doorway_open.mp4";
+import teaserNavDoorwayOpenPoster from "./assets/posters/teaser_nav_doorway_open.jpg";
+import teaserNavDoorway from "./assets/videos/teaser_nav_doorway.mp4";
+import teaserNavDoorwayPoster from "./assets/posters/teaser_nav_doorway.jpg";
+import teaserNavCorridorOpen from "./assets/videos/teaser_nav_corridor_open.mp4";
+import teaserNavCorridorOpenPoster from "./assets/posters/teaser_nav_corridor_open.jpg";
+import teaserNavCorridor from "./assets/videos/teaser_nav_corridor.mp4";
+import teaserNavCorridorPoster from "./assets/posters/teaser_nav_corridor.jpg";
 import hook from "./assets/videos/hook.mp4";
 import hookPoster from "./assets/posters/hook.jpg";
 import mapsReal from "./assets/videos/maps_real.mp4";
@@ -120,14 +132,37 @@ import simLidar from "./assets/maps/sim_lidar.jpg";
 </Header>
 
 <Wide>
-<ClipGrid cols={3} compact>
-  <Clip src={teaserOurs} poster={teaserOursPoster} label="Real robot" method="ours">Our policy on a Unitree G1 steps over boxes, bottles, phones and spills.</Clip>
-  <Clip src={teaserMap} poster={teaserMapPoster} label="What the map misses">A LiDAR elevation map keeps the boxes, but the phones and spills disappear from it.</Clip>
-  <Clip src={teaserElev} poster={teaserElevPoster} label="Elevation-only" method="elev">The same policy without the semantic branch steps on them.</Clip>
-  <Clip src={teaserSim} poster={teaserSimPoster} label="Simulation" method="ours">The same policy crosses randomized hazard layouts at the hardest difficulty level.</Clip>
-  <Clip src={teaserTerrain} poster={teaserTerrainPoster} label="Simulated terrain" method="ours">A stonebridge at the hardest level. Stairs and stakes are in the benchmark too, all strewn with hazards.</Clip>
-  <Clip src={teaserNav} poster={teaserNavPoster} label="Navigation">After a detour around a hazard, anti-deviation steers the robot back onto its route.</Clip>
-</ClipGrid>
+<Tabs defaultValue="real">
+  <TabsList>
+    <TabsTrigger value="real" class="max-sm:px-2.5 max-sm:text-sm"><span class="sm:hidden">Real robot</span><span class="hidden sm:inline">Real-world locomotion</span></TabsTrigger>
+    <TabsTrigger value="sim" class="max-sm:px-2.5 max-sm:text-sm"><span class="sm:hidden">Simulation</span><span class="hidden sm:inline">Simulated locomotion</span></TabsTrigger>
+    <TabsTrigger value="nav" class="max-sm:px-2.5 max-sm:text-sm">Navigation</TabsTrigger>
+  </TabsList>
+  <TabsContent value="real">
+    <ClipGrid cols={4} compact>
+      <Clip src={teaserOurs} poster={teaserOursPoster} label="Ours" method="ours">Our policy on a Unitree G1 steps over boxes, bottles, phones and spills.</Clip>
+      <Clip src={teaserMap} poster={teaserMapPoster} label="What the map misses">A LiDAR elevation map keeps the boxes, but the phones and spills disappear from it.</Clip>
+      <Clip src={teaserElev} poster={teaserElevPoster} label="Elevation-only" method="elev">The same policy without the semantic branch steps on them.</Clip>
+      <Clip src={teaserPush} poster={teaserPushPoster} label="Pushed" method="ours">Struck with a pool noodle while walking, it recovers and keeps going.</Clip>
+    </ClipGrid>
+  </TabsContent>
+  <TabsContent value="sim">
+    <ClipGrid cols={4} compact>
+      <Clip src={teaserSim} poster={teaserSimPoster} label="Ours" method="ours">On a randomized hazard layout at the hardest level, it steps over the phone.</Clip>
+      <Clip src={teaserSimElev} poster={teaserSimElevPoster} label="Elevation-only" method="elev">On the same layout, without the semantic branch, it steps on the phone.</Clip>
+      <Clip src={teaserSimPush} poster={teaserSimPushPoster} label="Pushed" method="ours">Shoved sideways at 1.1 m/s, with every perturbation at 1.5×, it keeps going.</Clip>
+      <Clip src={teaserTerrain} poster={teaserTerrainPoster} label="Stonebridge" method="ours">Stairs, stakes and stonebridges are in the benchmark too, all strewn with hazards.</Clip>
+    </ClipGrid>
+  </TabsContent>
+  <TabsContent value="nav">
+    <ClipGrid cols={4} compact>
+      <Clip src={teaserNavDoorwayOpen} poster={teaserNavDoorwayOpenPoster} label="w/o anti-deviation" method="elev">Doorway: after a detour around a spill, it drifts and swings into the wall.</Clip>
+      <Clip src={teaserNavDoorway} poster={teaserNavDoorwayPoster} label="With anti-deviation" method="ours">Doorway: it stays on the route and walks through.</Clip>
+      <Clip src={teaserNavCorridorOpen} poster={teaserNavCorridorOpenPoster} label="w/o anti-deviation" method="elev">Corridor (2×): off the route around hazards, it keeps drifting and collides.</Clip>
+      <Clip src={teaserNavCorridor} poster={teaserNavCorridorPoster} label="With anti-deviation" method="ours">Corridor (2×): anti-deviation steers it back onto the route.</Clip>
+    </ClipGrid>
+  </TabsContent>
+</Tabs>
 </Wide>
 
 <HighlightedSection>
